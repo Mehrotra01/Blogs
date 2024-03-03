@@ -150,7 +150,7 @@ export class databaseService {
   }
   async getImagepreview(fileId) {
     try {
-      return await this.bucket.getFilePreview(
+      return this.bucket.getFilePreview(
         config.appwriteBucketID,
         file
       );

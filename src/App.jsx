@@ -25,7 +25,7 @@ function App() {
       <Header />
       <main>
         <h1>bLOG'S APP USING appwrite</h1>
-        <Outlet />
+        {/* <Outlet /> */}
       </main>
       <Footer />
     </>
