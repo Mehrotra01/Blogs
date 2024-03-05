@@ -4,8 +4,8 @@ import Container from "./container";
 import Logo from "./logo";
 import LogOutBtn from "./logOutBtn";
 import BlogCard from "./BlogCard";
-import button from "./button";
-import dropdown from "./dropdown";
+import Button from "./button";
+import Dropdown from "./dropdown";
 import Input from "./Input";
 
 export {
@@ -16,6 +16,6 @@ export {
   LogOutBtn,
   BlogCard,
   Input,
-  dropdown,
-  button,
+  Dropdown,
+  Button,
 };
