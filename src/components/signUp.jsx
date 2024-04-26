@@ -6,7 +6,7 @@ import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 
-function signUp() {
+function SignUp() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
@@ -105,4 +105,4 @@ function signUp() {
   );
 }
 
-export default signUp;
+export default SignUp;

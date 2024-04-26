@@ -3,15 +3,16 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate,Link } from "react-router-dom";
 import authService from "../appwrite/auth";
-import { login } from "../store/features/authSlice";
+import { login as authLogin } from "../store/features/authSlice";
 import { Button, Input, Logo } from "./index";
 
-function login() {
+function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
+
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
@@ -23,7 +24,7 @@ function login() {
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
-          dispatch(login(userData));
+          dispatch(authLogin(userData));
         }
         navigate("/");
       }
@@ -97,4 +98,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;
