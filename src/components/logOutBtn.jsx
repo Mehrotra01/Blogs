@@ -3,7 +3,7 @@ import authService from "../appwrite/auth";
 import { logOut } from "../store/features/authSlice";
 import { useDispatch } from "react-redux";
 
-function logOutBtn() {
+function LogOutBtn() {
   const dispatch = useDispatch();
 
   const logOutHandler = () => {
@@ -26,4 +26,4 @@ function logOutBtn() {
   );
 }
 
-export default logOutBtn;
+export default LogOutBtn;

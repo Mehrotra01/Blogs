@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 
-function dropdown({ options=[], label, className="", ...props }, ref) {
+function Dropdown({ options=[], label, className="", ...props }, ref) {
   const id = useId();
   return (
     <div className="w-full">
@@ -21,4 +21,4 @@ function dropdown({ options=[], label, className="", ...props }, ref) {
   );
 }
 
-export default React.forwardRef(dropdown);
+export default React.forwardRef(Dropdown);
