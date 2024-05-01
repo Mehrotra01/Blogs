@@ -20,6 +20,7 @@ export class AuthService {
         password,
         name
       );
+      
       if (userAccount) {
         return this.login(email, password);
         // return userAccount;
@@ -34,12 +35,7 @@ export class AuthService {
 
   async login({ email, password }) {
     try {
-      const logedIn = this.account.createEmailSession(email, password);
-      if (logedIn) {
-        return userAccount;
-      } else {
-        return;
-      }
+      return await this.account.createEmailSession(email, password); 
     } catch (error) {
         console.log("Appwrite service:: login :: error :: ", error);
       throw error;
@@ -57,7 +53,7 @@ export class AuthService {
 
   async logout() {
     try {
-      return await this.account.deleteSessions();
+      await this.account.deleteSessions();
       // return await this.account.deleteSession('current');
     } catch (error) {
       console.log("Appwrite service:: logout :: error :: ", error);

@@ -24,8 +24,8 @@ function SignUp() {
         const name = await authService.getCurrentUser();
         if (name) {
           dispatch(login(name));
-          navigate("/");
         }
+        navigate("/");
       }
     } catch (error) {
       setError(error.message);
@@ -86,7 +86,7 @@ function SignUp() {
                 {...register("password", {
                   required: true,
                   minLength: 6,
-                  pattern: (value) =>
+                  matchPatern: (value) =>
                     /^(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{};:',<.>])(?=.{6,})/.test(
                       value
                     ) ||

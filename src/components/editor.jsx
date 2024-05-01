@@ -12,6 +12,7 @@ function editor({ name, control, label, defaultValue = "" }) {
         control={control}
         render={({ field: { onChange } }) => (
           <Editor
+            apiKey="5l5aim6x16d5d6zolz8inpa09q95yr6gzywtbnprvuzj012l"
             initialValue={defaultValue}
             init={{
               initialValue: defaultValue,

@@ -10,19 +10,19 @@ function PostForm({ post }) {
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.slug || "",
+        slug: post?.$id || "",
         content: post?.content || "",
         status: post?.status || "active",
       },
     });
 
-  const navigate = useNavigate("");
-  const userData = useSelector((state) => state.user.isLoggedIn);
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
       const file = data.image[0]
-        ? dataBaseSerivce.uploadImage(data.image[0])
+        ? await dataBaseSerivce.uploadImage(data.image[0])
         : null;
 
       if (file) {
@@ -39,12 +39,13 @@ function PostForm({ post }) {
       }
     } else {
       const file = await dataBaseSerivce.uploadImage(data.image[0]);
+
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
         const dbPost = await dataBaseSerivce.createPost({
           ...data,
-          userId: userData.$id,
+          userID: userData.$id,
         });
 
         if (dbPost) {
@@ -59,7 +60,7 @@ function PostForm({ post }) {
       return value
         .trim()
         .toLowerCase()
-        .replace(/^[a-zA-Z\d\s]+/g, "-")
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
     }
     return "";
@@ -72,70 +73,72 @@ function PostForm({ post }) {
       }
     });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, [watch, slugTransform, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-      <div className="w-2/3 px-2">
-        <Input
-          label="Title :"
-          placeholder="Title"
-          className="mb-4"
-          {...register("title", { required: true })}
-        />
-        <Input
-          label="Slug :"
-          placeholder="Slug"
-          className="mb-4"
-          {...register("slug", { required: true })}
-          onInput={(e) => {
-            setValue("slug", slugTransform(e.currentTarget.value), {
-              shouldValidate: true,
-            });
-          }}
-        />
-        <Editor
-          label="Content :"
-          name="content"
-          control={control}
-          defaultValue={getValues("content")}
-        />
-      </div>
-      <div className="w-1/3 px-2">
-        <Input
-          label="Featured Image :"
-          type="file"
-          className="mb-4"
-          accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post })}
-        />
-        {post && (
-          <div className="w-full mb-4">
-            <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
-              alt={post.title}
-              className="rounded-lg"
+    <>
+      <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+        <div className="w-2/3 px-2">
+          <Input
+            label="Title :"
+            placeholder="Title"
+            className="mb-4"
+            {...register("title", { required: true })}
+          />
+          <Input
+            label="Slug :"
+            placeholder="Slug"
+            className="mb-4"
+            {...register("slug", { required: true })}
+            onInput={(e) => {
+              setValue("slug", slugTransform(e.currentTarget.value), {
+                shouldValidate: true,
+              });
+            }}
+          />
+          <div>
+            Content :
+            <Editor
+              name="content"
+              control={control}
+              defaultValue={getValues("content")}
             />
           </div>
-        )}
-        <Dropdown
-          options={["active", "inactive"]}
-          label="Status"
-          className="mb-4"
-          {...register("status", { required: true })}
-        />
-        <Button
-          type="submit"
-          bgColor={post ? "bg-green-500" : undefined}
-          className="w-full"
-        >
-          {post ? "Update" : "Submit"}
-        </Button>
-      </div>
-    </form>
+        </div>
+        <div className="w-1/3 px-2">
+          <Input
+            label="Featured Image :"
+            type="file"
+            className="mb-4"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", { required: !post })}
+          />
+          {post && (
+            <div className="w-full mb-4">
+              <img
+                src={dataBaseSerivce.getImagepreview(post.featuredImage)}
+                alt={post.title}
+                className="rounded-lg"
+              />
+            </div>
+          )}
+          <Dropdown
+            options={["active", "inactive"]}
+            label="Status"
+            className="mb-4"
+            {...register("status", { required: true })}
+          />
+          <Button
+            type="submit"
+            bgColor={post ? "bg-green-500" : undefined}
+            className="w-full"
+          >
+            {post ? "Update" : "Submit"}
+          </Button>
+        </div>
+      </form>
+    </>
   );
 }
 

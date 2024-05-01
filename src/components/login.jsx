@@ -23,9 +23,7 @@ function Login() {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
-        if (userData) {
-          dispatch(authLogin(userData));
-        }
+        if (userData) dispatch(authLogin(userData));
         navigate("/");
       }
     } catch (error) {
@@ -65,7 +63,7 @@ function Login() {
               {...register("email", {
                 required: true,
                 validate: {
-                  pattern: (value) =>
+                  matchPatern: (value) =>
                     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                     "Email address must be a valid address",
                 },
@@ -79,7 +77,7 @@ function Login() {
                 {...register("password", {
                   required: true,
                   minLength: 6,
-                  pattern: (value) =>
+                  matchPatern: (value) =>
                     /^(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{};:',<.>])(?=.{6,})/.test(
                       value
                     ) ||

@@ -59,7 +59,6 @@ export class databaseService {
         config.appwriteColID,
         slug
       );
-      return true;
     } catch (error) {
       console.log("Appwrite service:: deletePost :: error :: ", error);
       return false;
@@ -73,7 +72,6 @@ export class databaseService {
         config.appwriteColID,
         slug
       );
-      return true;
     } catch (error) {
       console.log("Appwrite service:: getPost :: error :: ", error);
       return false;
@@ -87,7 +85,6 @@ export class databaseService {
         config.appwriteColID,
         queries
       );
-      return true;
     } catch (error) {
       console.log("Appwrite service:: getAllPost :: error :: ", error);
       return false;
@@ -109,51 +106,29 @@ export class databaseService {
 
   async deleteImage(fileId) {
     try {
-      return await this.bucket.deleteFile(
+      const deleted = await this.bucket.deleteFile(
         config.appwriteBucketID,
-        file
+        fileId
       );
-    } catch (error) {
-      console.log("Appwrite service:: deleteImage :: error :: ", error);
-    }
-  }
-  async updateImage(fileId) {
-    try {
-      return await this.bucket.updateFile(
-        config.appwriteBucketID,
-        file
-      );
+      if (deleted) {
+        return true;
+      }
     } catch (error) {
       console.log("Appwrite service:: deleteImage :: error :: ", error);
     }
   }
 
-  async getImage(fileId) {
+  dowloadImage(fileId) {
     try {
-      return await this.bucket.getFile(
-        config.appwriteBucketID,
-        file
-      );
-    } catch (error) {
-      console.log("Appwrite service:: getImage :: error :: ", error);
-    }
-  }
-  async dowloadImage(fileId) {
-    try {
-      return await this.bucket.getFileDownload(
-        config.appwriteBucketID,
-        file
-      );
+      return this.bucket.getFileDownload(config.appwriteBucketID, fileId);
     } catch (error) {
       console.log("Appwrite service:: getfileDownload :: error :: ", error);
     }
   }
-  async getImagepreview(fileId) {
+
+  getImagepreview(fileId) {
     try {
-      return this.bucket.getFilePreview(
-        config.appwriteBucketID,
-        file
-      );
+      return this.bucket.getFilePreview(config.appwriteBucketID, fileId);
     } catch (error) {
       console.log("Appwrite service:: getImagepreview :: error :: ", error);
     }
